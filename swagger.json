@@ -1,0 +1,221 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Swagger Morty",
+      "termsOfService": "http://swagger.io/terms/",
+      "contact": {
+        "email": "apiteam@swagger.io"
+      },
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+    },
+    "host": "localhost",
+    "basePath": "/v2",
+    "tags": [
+      {
+        "name": "api",
+        "description": "Everything about your Pets",
+        "externalDocs": {
+          "description": "Find out more",
+          "url": "http://swagger.io"
+        }
+      }
+    ],
+    "schemes": [
+      "http"
+    ],
+    "paths": {
+      "/set": {
+        "post": {
+          "tags": [
+            "api"
+          ],
+          "summary": "uploads an image",
+          "description": "",
+          "operationId": "uploadFile",
+          "consumes": [
+            "multipart/form-data"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "rancher_set",
+              "in": "query",
+              "type": "string",
+              "enum": [
+                "rancher-azure",
+                "rancher-pb ",
+                "rancher-equinix",
+                "rancher-new",
+                "rancher-cond"
+              ],
+              "description": "Enter rancher here."
+            },
+            {
+              "name": "env_set",
+              "in": "query",
+              "type": "string",
+              "enum": [
+                "PIER-CBSS",
+                "Pier_CBSS_Faturas ",
+                "PIER-COND",
+                "heimdall-pernambucanas",
+                "pier-pernambucanas",
+                "PIER_Azure",
+                "PIER_Labs"
+              ],
+              "description": "Enter env name here.",
+              "required": false
+            },
+            {
+              "name": "task_id",
+              "in": "query",
+              "type": "string",
+              "description": "Pier or Heimdall ID",
+              "required": false
+            },
+            {
+              "name": "stack_version_name",
+              "in": "query",
+              "description": "name stack/app",
+              "required": false,
+              "type": "string",
+              "format": "string"
+            },
+            {
+              "name": "add_id",
+              "in": "query",
+              "description": "jeremiad id (heimdall or pier)",
+              "required": false,
+              "type": "string",
+              "enum": [
+                "C6C03T6EQ",
+                "GHWNJDPAR"
+              ],
+              "format": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "schema": {
+                "$ref": "#/definitions/ApiResponse"
+              }
+            }
+          },
+          "security": [
+            {
+              "petstore_auth": [
+                "write:pets",
+                "read:pets"
+              ]
+            }
+          ]
+        }
+      },
+      "/clear": {
+        "get": {
+          "tags": [
+            "api"
+          ],
+          "summary": "Returns pet inventories by status",
+          "description": "Returns a map of status codes to quantities",
+          "operationId": "getInventory",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "rancher_set",
+              "in": "query",
+              "type": "string",
+              "enum": [
+                "rancher-azure",
+                "rancher-pb ",
+                "rancher-equinix",
+                "rancher-new",
+                "rancher-cond"
+              ],
+              "description": "Enter rancher here.",
+              "required": true
+            },
+            {
+              "name": "env_set",
+              "in": "query",
+              "type": "string",
+              "enum": [
+                "PIER-CBSS",
+                "Pier_CBSS_Faturas ",
+                "PIER-COND",
+                "heimdall-pernambucanas",
+                "pier-pernambucanas",
+                "PIER_Azure",
+                "PIER_Labs"
+              ],
+              "description": "Enter env name here.",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "schema": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "api_key": []
+            }
+          ]
+        }
+      }
+    },
+    "securityDefinitions": {
+      "petstore_auth": {
+        "type": "oauth2",
+        "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+        "flow": "implicit",
+        "scopes": {
+          "write:pets": "modify pets in your account",
+          "read:pets": "read your pets"
+        }
+      },
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "header"
+      }
+    },
+    "definitions": {
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "externalDocs": {
+      "description": "Find out more about Swagger",
+      "url": "http://swagger.io"
+    }
+  }
