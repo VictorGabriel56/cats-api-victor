@@ -20,34 +20,25 @@ router.get('/', async (req, res, next) => {
 
   user.data.forEach(async (value, index) => {
 
-    let catExist = await Breeds.findOne(user.data[index].id);
-    if (catExist) {
-      ifC++;
-      console.log(1);
-    }
-    else {
-      const breeds = await Breeds.create({
+    let { id } = value.id;
+
+    let catExist = await Breeds.findOne(id);
+
+    if (!catExist) {
+      console.log('foi');
+      await Breeds.create({
         id: value.id,
         temperament: value.temperament,
         origin: value.origin,
         description: value.description
       });
-      ElseC++;
-      console.log(ElseC);
     }
   });
 
-  res.status(201).send({
-    ifc: ifC,
-    elssd: ElseC 
+
+  res.status(200).send({
+    mensagem: 'Base Atualizada com informações!'
   });
-
-  ifC = 0;
-  ElseC = 0;
-
-  // res.status(200).send({
-  //   mensagem: 'Usando post'
-  // });
 
 });
 
