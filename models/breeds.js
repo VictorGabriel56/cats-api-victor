@@ -17,6 +17,18 @@ const BreedsSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
+    Picture1:{
+        type: String,
+        require: true,
+    },
+    Picture2:{
+        type: String,
+        require: true,
+    },
+    Picture3:{
+        type: String,
+        require: true,
+    },
     createdAt:{
         type: Date,
         default: Date.now,

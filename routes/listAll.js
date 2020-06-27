@@ -17,19 +17,19 @@ router.get('/all/breeds', async (req, res, next) => {
 });
 
 //listar info de raças pelo nome da raça
-router.get('/all/breed/:infoId', async (req, res, next) => {
+router.get('/breed/:infoId', async (req, res, next) => {
     const all = await Breeds.find({Breed: req.params.infoId});
     return res.send(all);
 });
 
 //listar raças de acordo com o temperamento
-router.get('/all/temp/:infoTemp', async (req, res, next) => {
+router.get('/temp/:infoTemp', async (req, res, next) => {
     const all1 = await Breeds.find({"Temperament": {'$regex': req.params.infoTemp, '$options' : 'i'}});
     return res.send(all1);
 });
 
 //listar raças de acordo com a origem
-router.get('/all/origin/:infoOrigin', async (req, res, next) => {
+router.get('/origin/:infoOrigin', async (req, res, next) => {
     const all1 = await Breeds.find({"Origin": {'$regex': req.params.infoOrigin, '$options' : 'i'}});
     return res.send(all1);
 });
