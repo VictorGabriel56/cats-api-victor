@@ -4,12 +4,6 @@ const router = express.Router();
 const length = require('length')
 const { default: Axios } = require('axios');
 
-
-router.get('/all', async (req, res, next) => {
-  const all = await Breeds.find({},{"origin": 1});;
-  return res.send({all});
-});
-
 router.get('/', async (req, res, next) => {
 
 
@@ -19,11 +13,6 @@ router.get('/', async (req, res, next) => {
     }
   })
 
-  // let CatFilter = [];
-
-  var ifC = 0;
-  var ElseC = 0;
-
   allBeardsSave.data.forEach(async (value, index) => {
 
     let { id } = value.id;
@@ -31,12 +20,12 @@ router.get('/', async (req, res, next) => {
     let catExist = await Breeds.findOne(id);
 
     if (!catExist) {
-      console.log('foi');
+      console.log('yep');
       await Breeds.create({
-        id: value.id,
-        temperament: value.temperament,
-        origin: value.origin,
-        description: value.description
+        Breed: value.id,
+        Temperament: value.temperament,
+        Origin: value.origin,
+        Description: value.description
       });
     }
   });
