@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('../database/db');
 
 const BreedsSchema = new mongoose.Schema({
     id:{
@@ -21,8 +21,6 @@ const BreedsSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-},{
-    collation: "Breeds123"
 });
 
 const Breeds = mongoose.model('Breeds', BreedsSchema);

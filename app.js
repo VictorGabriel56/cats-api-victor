@@ -4,7 +4,7 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser');
 // const mongoose = require("mongoose")
 
-const freeC = require('./routes/saveAllBreeds')(app);
+require('./routes/saveAllBreeds')(app);
 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');

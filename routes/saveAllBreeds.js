@@ -2,76 +2,52 @@ const express = require('express');
 const Breeds = require('../models/breeds')
 const router = express.Router();
 const length = require('length')
-// const https = require('https');
 const { default: Axios } = require('axios');
-// const { json } = require('body-parser');
-// const { response } = require('../app');
+
+router.get('/', async (req, res, next) => {
 
 
-router.get('/',async (req,res,next) => {
-
-
-    const user = await Axios.get("https://api.thecatapi.com/v1/breeds", {
-      headers: {
-        'x-api-key': '8676dee6-65f2-4574-afd5-58d94c7c01ce'
-      }
+  const user = await Axios.get("https://api.thecatapi.com/v1/breeds", {
+    headers: {
+      'x-api-key': '8676dee6-65f2-4574-afd5-58d94c7c01ce'
+    }
   })
 
-  var i= 0;
-  console.log(1);
-  console.log(i);
-  console.log(user.data.lengt);
-  
+  // let CatFilter = [];
 
-  let CatFilter = [];
+  var ifC = 0;
+  var ElseC = 0;
 
-  user.data.forEach(async (value) => {
-        // CatFilter[index] = {
-        //     id: value.id,
-        //     temperament: value.temperament,
-        //     origin: value.origin,
-        //     description: value.description,
-        // }
-      
-        
-        const {id, temperament, origin, description} = value;
+  user.data.forEach(async (value, index) => {
 
-        const breeds = await Breeds.create({
-            id,
-            temperament,
-            origin,
-            description
-        })
-        res.send({breeds});
-
-        
-    });
-  
-
-//   console.log(2);
-//   console.log(user.data[i].id);
-
-// };
-  // console.log(fodase);
-  // const{id} = user.data;
-
-  // let teste = [user.data.id]   
-  console.log(3);
-
-  // let item = {  
-  //   origin: url,  
-  //   origin: avatar_url  
-  // }; 
-
-  // var data = new Breeds(item); 
-  // data.save();
- 
-  // console.log(user);
- 
-  res.status(200).send({
-    mensagem: 'Usando post',
-    // temperament, origin, id, description
+    let catExist = await Breeds.findOne(user.data[index].id);
+    if (catExist) {
+      ifC++;
+      console.log(1);
+    }
+    else {
+      const breeds = await Breeds.create({
+        id: value.id,
+        temperament: value.temperament,
+        origin: value.origin,
+        description: value.description
+      });
+      ElseC++;
+      console.log(ElseC);
+    }
   });
+
+  res.status(201).send({
+    ifc: ifC,
+    elssd: ElseC 
+  });
+
+  ifC = 0;
+  ElseC = 0;
+
+  // res.status(200).send({
+  //   mensagem: 'Usando post'
+  // });
 
 });
 
