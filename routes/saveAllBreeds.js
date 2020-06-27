@@ -4,10 +4,16 @@ const router = express.Router();
 const length = require('length')
 const { default: Axios } = require('axios');
 
+
+router.get('/all', async (req, res, next) => {
+  const all = await Breeds.find({},{"origin": 1});;
+  return res.send({all});
+});
+
 router.get('/', async (req, res, next) => {
 
 
-  const user = await Axios.get("https://api.thecatapi.com/v1/breeds", {
+  const allBeardsSave = await Axios.get("https://api.thecatapi.com/v1/breeds", {
     headers: {
       'x-api-key': '8676dee6-65f2-4574-afd5-58d94c7c01ce'
     }
@@ -18,7 +24,7 @@ router.get('/', async (req, res, next) => {
   var ifC = 0;
   var ElseC = 0;
 
-  user.data.forEach(async (value, index) => {
+  allBeardsSave.data.forEach(async (value, index) => {
 
     let { id } = value.id;
 
