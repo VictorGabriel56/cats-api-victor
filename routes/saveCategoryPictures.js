@@ -2,6 +2,7 @@ const express = require('express');
 const Category = require('../models/categoryPics')
 const router = express.Router();
 const { default: Axios } = require('axios');
+const logger = require('../config/logger');
 
 router.get('/hat', async (req, res, next) => {
 
@@ -17,13 +18,13 @@ router.get('/hat', async (req, res, next) => {
 
     try {
         await Category.create({
-            Category: 'hat',
+            Category: 'Hat',
             Url1: glassCatPicutures.data[0].url,
             Url2: glassCatPicutures.data[1].url,
             Url3: glassCatPicutures.data[2].url
         });
     } catch (e) {
-        console.log(e);
+        logger.log(e);
     }
     res.status(200).send({
         mensagem: 'Adicionado 3 fotos de gato com chapéu a base!!'

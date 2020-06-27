@@ -3,6 +3,7 @@ const Breeds = require('../models/breeds')
 const router = express.Router();
 const length = require('length')
 const { default: Axios } = require('axios');
+const logger = require('../config/logger');
 
 router.get('/', async (req, res, next) => {
   
@@ -18,7 +19,7 @@ router.get('/', async (req, res, next) => {
 
     let catExist = await Breeds.findOne(id);
     try {
-      if (!catExist) {
+      if (catExist) {
         await Breeds.create({
           Breed: value.id,
           Temperament: value.temperament,
@@ -53,10 +54,10 @@ router.get('/', async (req, res, next) => {
         await Breeds.updateOne({ Breed: value.id }, { Picture3: allBeardsSavePictures.data[2].url });
       }
     } catch (e) {
-      console.log(e);
+      logger.log('error', e);
     }
   });
-
+  logger.log('info', `Atualização de base realizada com sucesso!`);
   res.status(200).send({
     mensagem: 'Atualização de base realizada com sucesso!'
   });
