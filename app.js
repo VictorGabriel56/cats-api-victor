@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 
 require('./routes/saveAllBreeds')(app);
 require('./routes/listAll')(app);
+require('./routes/saveCategoryPictures')(app);
 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
