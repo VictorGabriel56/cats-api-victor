@@ -2,8 +2,9 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan')
 const bodyParser = require('body-parser');
+// const mongoose = require("mongoose")
 
-const freeC = require('./routes/saveAllBreeds');
+require('./routes/saveAllBreeds')(app);
 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -18,7 +19,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use('/free', freeC);
+// app.use('/free', freeC);
 
 app.use((req, res, next) => {
     const erro = new Error('URL not found');

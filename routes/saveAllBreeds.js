@@ -1,24 +1,45 @@
 const express = require('express');
+const Breeds = require('../models/breeds')
 const router = express.Router();
-// const https = require('https');
+const length = require('length')
 const { default: Axios } = require('axios');
-// const { json } = require('body-parser');
-// const { response } = require('../app');
+
+router.get('/', async (req, res, next) => {
 
 
-router.get('/',async (req,res,next) => {
+  const user = await Axios.get("https://api.thecatapi.com/v1/breeds", {
+    headers: {
+      'x-api-key': '8676dee6-65f2-4574-afd5-58d94c7c01ce'
+    }
+  })
 
-  const user = await Axios.get("https://api.github.com/users/VictorGabriel56");
+  // let CatFilter = [];
 
-  const{name, avatar_url} = user.data;
- 
-  console.log("name: "+user.data.name);
-  
+  var ifC = 0;
+  var ElseC = 0;
+
+  user.data.forEach(async (value, index) => {
+
+    let { id } = value.id;
+
+    let catExist = await Breeds.findOne(id);
+
+    if (!catExist) {
+      console.log('foi');
+      await Breeds.create({
+        id: value.id,
+        temperament: value.temperament,
+        origin: value.origin,
+        description: value.description
+      });
+    }
+  });
+
+
   res.status(200).send({
-    mensagem: 'Usando post',
-    name, avatar_url
+    mensagem: 'Base Atualizada com informações!'
   });
 
 });
 
-module.exports = router;
+module.exports = app => app.use('/save', router);
