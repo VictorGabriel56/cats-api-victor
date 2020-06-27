@@ -7,30 +7,25 @@ const { default: Axios } = require('axios');
 router.get('/', async (req, res, next) => {
 
 
-  const user = await Axios.get("https://api.thecatapi.com/v1/breeds", {
+  const allBeardsSave = await Axios.get("https://api.thecatapi.com/v1/breeds", {
     headers: {
       'x-api-key': '8676dee6-65f2-4574-afd5-58d94c7c01ce'
     }
   })
 
-  // let CatFilter = [];
-
-  var ifC = 0;
-  var ElseC = 0;
-
-  user.data.forEach(async (value, index) => {
+  allBeardsSave.data.forEach(async (value, index) => {
 
     let { id } = value.id;
 
     let catExist = await Breeds.findOne(id);
 
     if (!catExist) {
-      console.log('foi');
+      console.log('yep');
       await Breeds.create({
-        id: value.id,
-        temperament: value.temperament,
-        origin: value.origin,
-        description: value.description
+        Breed: value.id,
+        Temperament: value.temperament,
+        Origin: value.origin,
+        Description: value.description
       });
     }
   });

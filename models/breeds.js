@@ -1,19 +1,19 @@
 const mongoose = require('../database/db');
 
 const BreedsSchema = new mongoose.Schema({
-    id:{
+    Breed:{
         type: String,
         require: true,
     },
-    temperament:{
+    Temperament:{
         type: String,
         require: true,
     },
-    origin:{
+    Origin:{
         type: String,
         require: true,
     },
-    description:{
+    Description:{
         type: String,
         require: true,
     },
