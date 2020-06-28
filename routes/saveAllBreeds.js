@@ -3,7 +3,14 @@ const Breeds = require('../models/breeds')
 const router = express.Router();
 const length = require('length')
 const { default: Axios } = require('axios');
-const logger = require('../config/logger');
+const pino = require('pino');
+// const logger = pino(pino.destination('./logs.log'))
+const log = pino(pino.destination('./logs/logs.log'), { level: process.env.LOG_LEVEL || 'info' });
+// const log = pino({ level: process.env.LOG_LEVEL || 'info' });
+const expressPino = require('express-pino-logger');  //modified
+const expressLogger = expressPino({ logger:log });  //added
+router.use(expressLogger) //modified
+const logger = pino({ prettyPrint: { suppressFlushSyncWarning: true } });
 
 router.get('/', async (req, res, next) => {
   
@@ -19,7 +26,7 @@ router.get('/', async (req, res, next) => {
 
     let catExist = await Breeds.findOne(id);
     try {
-      if (catExist) {
+      if (!catExist) {
         await Breeds.create({
           Breed: value.id,
           Temperament: value.temperament,
@@ -54,12 +61,12 @@ router.get('/', async (req, res, next) => {
         await Breeds.updateOne({ Breed: value.id }, { Picture3: allBeardsSavePictures.data[2].url });
       }
     } catch (e) {
-      logger.log('error', e);
+      logger.error(e);
     }
   });
-  logger.log('info', `Atualização de base realizada com sucesso!`);
+  logger.info("Api de atualizacao chamada com sucesso.")
   res.status(200).send({
-    mensagem: 'Atualização de base realizada com sucesso!'
+    mensagem: 'Atualizacao de base realizada com sucesso!'
   });
 
 });

@@ -1,64 +1,89 @@
 const express = require('express');
 const Breeds = require('../models/breeds')
+const Category = require('../models/categoryPics')
 const router = express.Router();
 const length = require('length');
 const { render } = require('../app');
-const logger = require('../config/logger');
+const pino = require('pino');
+const log = pino(pino.destination('./logs/logs.log'), { level: process.env.LOG_LEVEL || 'info' });
+const logger = pino({ prettyPrint: { suppressFlushSyncWarning: true } });
+const expressPino = require('express-pino-logger');  //modified
+const expressLogger = expressPino({ logger: log });  //added
+router.use(expressLogger) //modified
 
 // listar tudo
 router.get('/all', async (req, res, next) => {
     const all = await Breeds.find();;
+    logger.info('Listando todas as inforações disponiveis na base!');
     return res.send(all);
 });
 
 //listar somente raças
-router.get('/all/breeds', async (req, res) => {
-
+router.get('/all/breeds', async (req, res, next) => {
 
     const all = await Breeds.find({}, { "Breed": 1 });;
 
-    logger.log('info',"listando apenas raças");
-    return res.send(all);
+    logger.info('Listando todas as raças disponiveis na base!');
+
+    return res.send(all.data);
 });
 
 //listar info de raças pelo nome da raça
-router.get('/breed/:infoId', async (req, res) => {
-
+router.get('/breed/:infoId', async (req, res, next) => {
     var all = await Breeds.findOne({ Breed: req.params.infoId });
 
-    let { Breed } = all;
-
-    if (Breed != 'undefined') {
-        console.log("Raça encontrada!")
-        console.log('info', `Raça encontrada!`)
+    if (all != null) {
+        logger.info('Raca encontrada!')
         return res.send(all);
     } else {
+        logger.warn("Log: Raca nao encontrada ao listar.")
         res.status(404).send({
-            mensagem: 'Essa raça não foi encontrada!'
+            mensagem: 'message: Essa raca não foi encontrada.'
         });
     }
-
-    // return res.send(all);
 });
 
 //listar raças de acordo com o temperamento
-router.get('/temp/:infoTemp', async (req, res) => {
+router.get('/temp/:infoTemp', async (req, res, next) => {
     var all = await Breeds.find({ "Temperament": { '$regex': req.params.infoTemp, '$options': 'i' } });
-    if(all.length != 0){
-        console.log("Raças encontradas de acordo com o temperamento!")
+
+
+    if (all.length != 0) {
+        logger.info('Raca(s) encontrada(s) de acordo com o temperamento informado.')
         return res.send(all);
-    }else{
-        console.log("Nenhuma raça foi encontrada de acordo com o temperamento passado!");
+    } else {
+        logger.warn("Log: Raca nao encontrada ao listar utilizando temperamento informado.")
         res.status(404).send({
-            mensagem: 'Nenhuma raça foi encontrada de acordo com o temperamento passado!'
+            mensagem: 'message: Raca nao encontrada ao listar utilizando temperamento informado'
         });
     }
-    // return res.send(all);
 });
 
 //listar raças de acordo com a origem
 router.get('/origin/:infoOrigin', async (req, res, next) => {
-    var all = await Breeds.find({ "Origin": { '$regex': req.params.infoOrigin, '$options': 'i' } });
+    const all = await Breeds.find({ "Origin": { '$regex': req.params.infoOrigin, '$options': 'i' } });
+
+    if (all.length != 0) {
+        logger.info('Raca(s) encontrada(s) de acordo com o temperamento informado.')
+        return res.send(all);
+    } else {
+        logger.warn("Log: Raca(s) nao encontrada(s) ao listar utilizando temperamento passado.")
+        res.status(404).send({
+            mensagem: 'message: Raca nao encontrada ao listar de acordo com a origem informada'
+        });
+    }
+});
+//listar gatos de chapéu
+router.get('/all/hat', async (req, res, next) => {
+    const all = await Category.find({ Category: 'Hat' });;
+    logger.info("Fotos de gato de chapeu listadas.")
+    return res.send(all);
+});
+
+//listar gatos de oculos
+router.get('/all/sunglass', async (req, res, next) => {
+    const all = await Category.find({ Category: 'Sunglasses' });
+    logger.info("Fotos de gato de oculos listadas.")
     return res.send(all);
 });
 

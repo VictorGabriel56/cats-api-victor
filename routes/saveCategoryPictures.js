@@ -2,7 +2,15 @@ const express = require('express');
 const Category = require('../models/categoryPics')
 const router = express.Router();
 const { default: Axios } = require('axios');
-const logger = require('../config/logger');
+const pino = require('pino');
+// const logger = pino(pino.destination('./logs.log'))
+const log = pino(pino.destination('./logs/logs.log'), { level: process.env.LOG_LEVEL || 'info' });
+// const log = pino({ level: process.env.LOG_LEVEL || 'info' });
+const expressPino = require('express-pino-logger');  //modified
+const expressLogger = expressPino({ logger:log });  //added
+router.use(expressLogger) //modified
+const logger = pino({ prettyPrint: { suppressFlushSyncWarning: true } });
+
 
 router.get('/hat', async (req, res, next) => {
 
@@ -24,10 +32,11 @@ router.get('/hat', async (req, res, next) => {
             Url3: glassCatPicutures.data[2].url
         });
     } catch (e) {
-        logger.log(e);
+        console.log(e);
     }
+    logger.info('Adicionado 3 fotos de gato com chapeu a base.');
     res.status(200).send({
-        mensagem: 'Adicionado 3 fotos de gato com chapéu a base!!'
+        mensagem: 'Adicionado 3 fotos de gato com chapéu a base.'
       });
 });
 
@@ -51,8 +60,9 @@ router.get('/sunglasses', async (req, res, next) => {
             Url3: glassCatPicutures.data[2].url
         });
     } catch (e) {
-        console.log(e);
+        logger.error(e);
     }
+    logger.info('Adicionado 3 fotos de gato com oculos a base.');
     res.status(200).send({
         mensagem: 'Adicionado 3 fotos de gato com oculos a base!'
       });
