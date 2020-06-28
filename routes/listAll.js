@@ -14,8 +14,17 @@ router.use(expressLogger) //modified
 // listar tudo
 router.get('/all', async (req, res, next) => {
     const all = await Breeds.find();;
+    if (all.length != 0) {
     logger.info('Listando todas as inforações disponiveis na base!');
     return res.send(all);
+    }
+    else {
+        logger.warn('Não existe inforações disponiveis na base.')
+        res.status(404).send({
+            mensagem: 'message: Não existe inforações disponiveis na base.'
+        });
+
+    }
 });
 
 //listar somente raças
@@ -23,9 +32,19 @@ router.get('/all/breeds', async (req, res, next) => {
 
     const all = await Breeds.find({}, { "Breed": 1 });;
 
-    logger.info('Listando todas as raças disponiveis na base!');
+    logger.info('Listando todas as raças disponiveis na base.');
 
-    return res.send(all.data);
+    if (all.length != 0) {
+        logger.info('Listando todas as raças disponiveis na base.');
+        return res.send(all);
+    }
+    else {
+        logger.warn('Não existe racas disponiveis na base.')
+        res.status(404).send({
+            mensagem: 'message: Não existe racas disponiveis na base.'
+        });
+
+    }
 });
 
 //listar info de raças pelo nome da raça
@@ -36,7 +55,7 @@ router.get('/breed/:infoId', async (req, res, next) => {
         logger.info('Raca encontrada!')
         return res.send(all);
     } else {
-        logger.warn("Log: Raca nao encontrada ao listar.")
+        logger.warn("Raca nao encontrada ao listar.")
         res.status(404).send({
             mensagem: 'message: Essa raca não foi encontrada.'
         });
@@ -52,7 +71,7 @@ router.get('/temp/:infoTemp', async (req, res, next) => {
         logger.info('Raca(s) encontrada(s) de acordo com o temperamento informado.')
         return res.send(all);
     } else {
-        logger.warn("Log: Raca nao encontrada ao listar utilizando temperamento informado.")
+        logger.warn("Raca nao encontrada ao listar utilizando temperamento informado.")
         res.status(404).send({
             mensagem: 'message: Raca nao encontrada ao listar utilizando temperamento informado'
         });
@@ -67,7 +86,7 @@ router.get('/origin/:infoOrigin', async (req, res, next) => {
         logger.info('Raca(s) encontrada(s) de acordo com o temperamento informado.')
         return res.send(all);
     } else {
-        logger.warn("Log: Raca(s) nao encontrada(s) ao listar utilizando temperamento passado.")
+        logger.warn("Raca(s) nao encontrada(s) ao listar utilizando temperamento passado.")
         res.status(404).send({
             mensagem: 'message: Raca nao encontrada ao listar de acordo com a origem informada'
         });
@@ -76,15 +95,32 @@ router.get('/origin/:infoOrigin', async (req, res, next) => {
 //listar gatos de chapéu
 router.get('/all/hat', async (req, res, next) => {
     const all = await Category.find({ Category: 'Hat' });;
-    logger.info("Fotos de gato de chapeu listadas.")
-    return res.send(all);
+    if (all.length != 0) {
+        logger.info("Fotos de gato de chapeu listadas.");
+        return res.send(all);
+    }
+    else {
+        logger.warn("Não existe fotos de gatos com oculos na base.")
+        res.status(404).send({
+            mensagem: 'message: Não existe fotos de gatos com oculos na base.'
+        });
+    }
+
 });
 
 //listar gatos de oculos
 router.get('/all/sunglass', async (req, res, next) => {
     const all = await Category.find({ Category: 'Sunglasses' });
-    logger.info("Fotos de gato de oculos listadas.")
-    return res.send(all);
+    if (all.length != 0) {
+        logger.info("Fotos de gato de oculos listadas.");
+        return res.send(all);
+    }
+    else {
+        logger.warn("Não existe fotos de gatos com oculos na base.")
+        res.status(404).send({
+            mensagem: 'message: Não existe fotos de gatos com oculos na base.'
+        });
+    }
 });
 
 module.exports = app => app.use('/list', router);

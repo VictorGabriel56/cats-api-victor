@@ -5,7 +5,8 @@ FROM node
 WORKDIR /usr/src/app
 
 # limpar log sempre que iniciar img
-RUN rm -rf /logs/*
+RUN rm -rf /logs
+RUN mkdir /logs
 
 # Copia todos os arquivos que começam com package e tem extensão .json para o diretório definido acima
 COPY package*.json ./

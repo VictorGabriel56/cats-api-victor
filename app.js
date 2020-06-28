@@ -1,11 +1,6 @@
 const express = require('express');
 const app = express();
-const morgan = require('morgan')
 const bodyParser = require('body-parser');
-// const mongoose = require("mongoose")
-
-
-app.use(morgan('dev'));
 
 require('./routes/saveAllBreeds')(app);
 require('./routes/listAll')(app);
@@ -38,7 +33,6 @@ app.use((req, res, next) => {
 
 app.use((error, req, res, next) => {
     res.status(error.status || 500);
-    logger.log(error.message);
     return res.send({
         Trace: error.message
     });
