@@ -1,5 +1,0 @@
-morty-api-vVERSAO:
-  image: conductorcr.azurecr.io/devops/morty-api:@versao@
-  labels:
-    io.rancher.container.pull_image: always
-

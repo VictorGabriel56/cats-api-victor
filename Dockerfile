@@ -4,6 +4,10 @@ FROM node
 # Define qual diretório será usado para nossa aplicação dentro do container
 WORKDIR /usr/src/app
 
+# limpar log sempre que iniciar img
+RUN rm -rf /logs
+RUN mkdir /logs
+
 # Copia todos os arquivos que começam com package e tem extensão .json para o diretório definido acima
 COPY package*.json ./
 

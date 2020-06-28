@@ -1,12 +1,12 @@
 {
-  "name": "morty-api",
+  "name": "cats-api-victor",
   "version": "1.0.0",
-  "description": "morty",
+  "description": "victor api to find cats",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm install",
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "author": "DevOpsJP",
   "license": "ISC",
@@ -14,13 +14,17 @@
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
+    "express-pino-logger": "^5.0.0",
     "length": "0.0.1",
     "mongoose": "^5.9.20",
-    "morgan": "^1.9.1",
     "node-fetch": "^2.6.0",
+    "pino": "^6.3.2",
+    "pino-http": "^5.2.0",
+    "pino-pretty": "^4.0.0",
     "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
+    "dotenv": "^8.2.0",
     "nodemon": "^2.0.2"
   }
 }
