@@ -60,7 +60,7 @@ router.get('/sunglasses', async (req, res, next) => {
             Url3: glassCatPicutures.data[2].url
         });
     } catch (e) {
-        console.log(e);
+        logger.error(e);
     }
     logger.info('Adicionado 3 fotos de gato com oculos a base.');
     res.status(200).send({

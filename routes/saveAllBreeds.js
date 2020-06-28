@@ -61,7 +61,7 @@ router.get('/', async (req, res, next) => {
         await Breeds.updateOne({ Breed: value.id }, { Picture3: allBeardsSavePictures.data[2].url });
       }
     } catch (e) {
-      logger.info(e);
+      logger.error(e);
     }
   });
   logger.info("Api de atualizacao chamada com sucesso.")

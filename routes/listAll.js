@@ -5,18 +5,16 @@ const router = express.Router();
 const length = require('length');
 const { render } = require('../app');
 const pino = require('pino');
-// const logger = pino(pino.destination('./logs.log'))
 const log = pino(pino.destination('./logs/logs.log'), { level: process.env.LOG_LEVEL || 'info' });
 const logger = pino({ prettyPrint: { suppressFlushSyncWarning: true } });
-// const log = pino({ level: process.env.LOG_LEVEL || 'info' });
 const expressPino = require('express-pino-logger');  //modified
 const expressLogger = expressPino({ logger: log });  //added
 router.use(expressLogger) //modified
 
-
 // listar tudo
 router.get('/all', async (req, res, next) => {
     const all = await Breeds.find();;
+    logger.info('Listando todas as inforações disponiveis na base!');
     return res.send(all);
 });
 
@@ -24,6 +22,8 @@ router.get('/all', async (req, res, next) => {
 router.get('/all/breeds', async (req, res, next) => {
 
     const all = await Breeds.find({}, { "Breed": 1 });;
+
+    logger.info('Listando todas as raças disponiveis na base!');
 
     return res.send(all.data);
 });
@@ -36,7 +36,7 @@ router.get('/breed/:infoId', async (req, res, next) => {
         logger.info('Raca encontrada!')
         return res.send(all);
     } else {
-        logger.info("Log: Raca nao encontrada ao listar.")
+        logger.warn("Log: Raca nao encontrada ao listar.")
         res.status(404).send({
             mensagem: 'message: Essa raca não foi encontrada.'
         });
@@ -52,7 +52,7 @@ router.get('/temp/:infoTemp', async (req, res, next) => {
         logger.info('Raca(s) encontrada(s) de acordo com o temperamento informado.')
         return res.send(all);
     } else {
-        logger.info("Log: Raca nao encontrada ao listar utilizando temperamento informado.")
+        logger.warn("Log: Raca nao encontrada ao listar utilizando temperamento informado.")
         res.status(404).send({
             mensagem: 'message: Raca nao encontrada ao listar utilizando temperamento informado'
         });
@@ -67,7 +67,7 @@ router.get('/origin/:infoOrigin', async (req, res, next) => {
         logger.info('Raca(s) encontrada(s) de acordo com o temperamento informado.')
         return res.send(all);
     } else {
-        logger.info("Log: Raca(s) nao encontrada(s) ao listar utilizando temperamento passado.")
+        logger.warn("Log: Raca(s) nao encontrada(s) ao listar utilizando temperamento passado.")
         res.status(404).send({
             mensagem: 'message: Raca nao encontrada ao listar de acordo com a origem informada'
         });
