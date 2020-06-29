@@ -5,8 +5,8 @@ const router = express.Router();
 const length = require('length');
 const { render } = require('../app');
 const pino = require('pino');
-const log = pino(pino.destination('./logs/logs.log'), { level: process.env.LOG_LEVEL || 'info' });
-const logger = pino({ prettyPrint: { suppressFlushSyncWarning: true } });
+const log = pino(pino.destination('./logs/logs.log'));
+const logger = pino();
 const expressPino = require('express-pino-logger');  //modified
 const expressLogger = expressPino({ logger: log });  //added
 router.use(expressLogger) //modified
