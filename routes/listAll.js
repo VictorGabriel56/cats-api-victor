@@ -32,8 +32,6 @@ router.get('/all/breeds', async (req, res, next) => {
 
     const all = await Breeds.find({}, { "Breed": 1 });;
 
-    logger.info('Listando todas as raças disponiveis na base.');
-
     if (all.length != 0) {
         logger.info('Listando todas as raças disponiveis na base.');
         return res.send(all);
