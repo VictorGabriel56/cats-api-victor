@@ -3,12 +3,10 @@ const Category = require('../models/categoryPics')
 const router = express.Router();
 const { default: Axios } = require('axios');
 const pino = require('pino');
-// const logger = pino(pino.destination('./logs.log'))
 const log = pino(pino.destination('./logs/logs.log'), { level: process.env.LOG_LEVEL || 'info' });
-// const log = pino({ level: process.env.LOG_LEVEL || 'info' });
-const expressPino = require('express-pino-logger');  //modified
-const expressLogger = expressPino({ logger:log });  //added
-router.use(expressLogger) //modified
+const expressPino = require('express-pino-logger');  
+const expressLogger = expressPino({ logger:log })
+router.use(expressLogger) 
 const logger = pino({ prettyPrint: { suppressFlushSyncWarning: true } });
 
 
