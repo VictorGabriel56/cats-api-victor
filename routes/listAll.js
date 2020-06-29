@@ -3,22 +3,19 @@ const Breeds = require('../models/breeds')
 const Category = require('../models/categoryPics')
 const router = express.Router();
 const length = require('length');
-const { render } = require('../app');
 const pino = require('pino');
-// const logger = pino(pino.destination('./logs.log'))
 const log = pino(pino.destination('./logs/logs.log'), { level: process.env.LOG_LEVEL || 'info' });
-// const log = pino({ level: process.env.LOG_LEVEL || 'info' });
-const expressPino = require('express-pino-logger');  //modified
-const expressLogger = expressPino({ logger:log });  //added
-router.use(expressLogger) //modified
+const expressPino = require('express-pino-logger');
+const expressLogger = expressPino({ logger: log });
+router.use(expressLogger)
 const logger = pino({ prettyPrint: { suppressFlushSyncWarning: true } });
 
 // listar tudo
 router.get('/all', async (req, res, next) => {
     const all = await Breeds.find();;
     if (all.length != 0) {
-    logger.info('Listando todas as inforações disponiveis na base!');
-    return res.send(all);
+        logger.info('Listando todas as inforações disponiveis na base!');
+        return res.send(all);
     }
     else {
         logger.warn('Não existe inforações disponiveis na base.')
@@ -33,8 +30,6 @@ router.get('/all', async (req, res, next) => {
 router.get('/all/breeds', async (req, res, next) => {
 
     const all = await Breeds.find({}, { "Breed": 1 });;
-
-    logger.info('Listando todas as raças disponiveis na base.');
 
     if (all.length != 0) {
         logger.info('Listando todas as raças disponiveis na base.');
@@ -51,6 +46,7 @@ router.get('/all/breeds', async (req, res, next) => {
 
 //listar info de raças pelo nome da raça
 router.get('/breed/:infoId', async (req, res, next) => {
+
     var all = await Breeds.findOne({ Breed: req.params.infoId });
 
     if (all != null) {
@@ -66,6 +62,7 @@ router.get('/breed/:infoId', async (req, res, next) => {
 
 //listar raças de acordo com o temperamento
 router.get('/temp/:infoTemp', async (req, res, next) => {
+
     var all = await Breeds.find({ "Temperament": { '$regex': req.params.infoTemp, '$options': 'i' } });
 
 
@@ -82,6 +79,7 @@ router.get('/temp/:infoTemp', async (req, res, next) => {
 
 //listar raças de acordo com a origem
 router.get('/origin/:infoOrigin', async (req, res, next) => {
+
     const all = await Breeds.find({ "Origin": { '$regex': req.params.infoOrigin, '$options': 'i' } });
 
     if (all.length != 0) {
@@ -96,7 +94,9 @@ router.get('/origin/:infoOrigin', async (req, res, next) => {
 });
 //listar gatos de chapéu
 router.get('/all/hat', async (req, res, next) => {
+
     const all = await Category.find({ Category: 'Hat' });;
+
     if (all.length != 0) {
         logger.info("Fotos de gato de chapeu listadas.");
         return res.send(all);
@@ -112,7 +112,9 @@ router.get('/all/hat', async (req, res, next) => {
 
 //listar gatos de oculos
 router.get('/all/sunglass', async (req, res, next) => {
+
     const all = await Category.find({ Category: 'Sunglasses' });
+
     if (all.length != 0) {
         logger.info("Fotos de gato de oculos listadas.");
         return res.send(all);
