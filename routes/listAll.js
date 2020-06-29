@@ -5,11 +5,13 @@ const router = express.Router();
 const length = require('length');
 const { render } = require('../app');
 const pino = require('pino');
-const log = pino(pino.destination('./logs/logs.log'));
-const logger = pino();
+// const logger = pino(pino.destination('./logs.log'))
+const log = pino(pino.destination('./logs/logs.log'), { level: process.env.LOG_LEVEL || 'info' });
+// const log = pino({ level: process.env.LOG_LEVEL || 'info' });
 const expressPino = require('express-pino-logger');  //modified
-const expressLogger = expressPino({ logger: log });  //added
+const expressLogger = expressPino({ logger:log });  //added
 router.use(expressLogger) //modified
+const logger = pino({ prettyPrint: { suppressFlushSyncWarning: true } });
 
 // listar tudo
 router.get('/all', async (req, res, next) => {
