@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 // require('dotenv').config()
 
-const mongo = 'mongodb+srv://admin:admin@cluster0-nfulh.gcp.mongodb.net/catsDB?retryWrites=true&w=majority'
+const mongo = process.env.MONGO_URL
 
 mongoose.connect(mongo, {
     useNewUrlParser: true,
