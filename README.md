@@ -29,32 +29,32 @@ sudo docker run -d --restart=unless-stopped -p 8090:80 \
 victorgfp5693/cats-api-victor:v1.0.0
 ```
 
-A api já estara disponivel localmente na porta `8090`
+A api já estará disponível localmente na porta `8090`
 
 Para entender mais sobre a api vá para [API](#api)
 
 **Instalação sem docker**
 
-clone o projeto para a sua maquina
+clone o projeto para a sua máquina
 
 ```
 git clone https://github.com/VictorGabriel56/cats-api-victor.git
 ```
 
-Primeiramente installe as dependencias necessarias para que o projeto rode
+Primeiramente instale as dependências necessárias para que o projeto rode
 
 ```
 npm install
 ```
 
-Após instalar as dependencias precisamos alterar os valores das variaveis **MONGO_URL** e **ApiKey** ambos no caminho `.env` na raiz do projeto
+Após instalar as dependencias precisamos alterar os valores das variáveis **MONGO_URL** e **ApiKey** ambos no caminho `.env` na raiz do projeto
 
 ```js
 MONGO_URL= Url de conexão para o seu mongoDB (Ex: const mongo = 'mongodb+srv://User:Passwor@cluster0-nfulh.gcp.mongodb.net/NomeDaBase?retryWrites=true&w=majority')
-ApiKey= Api Key valida para a TheCatApi
+ApiKey= Api Key válida para a TheCatApi
 ```
 
-Agora com as variavies com o valor correto já podemos rodar o codigo
+Agora com as variáveis com o valor correto já podemos rodar o código
 
 ```
 npm start
@@ -64,15 +64,15 @@ Para entender mais sobre a api vá para [API](#api)
 
 ## API
 
-* `/save`: Esta api bate na TheCatApi e armazena no mongoDB as informações de origem, temperamento e descrição de todos os gatos disponiveis
+* `/save`: Esta api bate na TheCatApi e armazena no mongoDB as informações de origem, temperamento e descrição de todos os gatos disponíveis
 
-* `/save-categories-picture/sunglasses`: Esta api bate na TheCatApi e armazena no mongoDB 3 urls de fotos de gatos usando oculos
+* `/save-categories-picture/sunglasses`: Esta api bate na TheCatApi e armazena no mongoDB 3 urls de fotos de gatos usando óculos
 
-* `/save-categories-picture/hat`: Esta api bate na TheCatApi e armazena no mongoDB 3 urls de fotos de gatos usando chapeu
+* `/save-categories-picture/hat`: Esta api bate na TheCatApi e armazena no mongoDB 3 urls de fotos de gatos usando chapéu
 
 * `/list/all`: Esta api lista todos os dados armazenado pela api `/save`
 
-* `/list/all/breeds`: Esta api lista todas as raças disponiveis na base
+* `/list/all/breeds`: Esta api lista todas as raças disponíveis na base
 
 * `/list/breed/NomeDaRaça`: Esta api lista todas as informações da raça escolhida
 
@@ -119,15 +119,15 @@ A infraestrutura utilizada/recomendada para esse projeto consiste no uso das seg
 **Cloud**
 * Azure
 
-**Quantidade de maquinas**
-* 3 maquinas
+**Quantidade de máquinas**
+* 3 máquinas
 
 ```
-Maquina 1: Rancher Server
-Maquina 2: Host ondem rodam os containers gerenciados pelo rancher
-Maquina 3: Maquina para coleta de metricas
+Máquina 1: Rancher Server
+Máquina 2: Host onde roda os containers gerenciados pelo rancher
+Máquina 3: Máquina para coleta de métricas
 ```
 
 ## Manual
 
-Para refazer uma infra semelhante a sugerida siga os passos do [manual]
+Para refazer uma infra semelhante à sugerida siga os passos do [manual]
