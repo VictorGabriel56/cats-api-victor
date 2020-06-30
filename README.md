@@ -103,7 +103,7 @@ Exemlo:/list/breed/Australia
 A infraestrutura utilizada/recomendada para esse projeto consiste no uso das seguintes tecnologias em conjunto com a aplicação
 
 **Gerenciador de containers**
-* rancher
+* Rancher
 
 **Ferramenta de logging**
 * Splunk

@@ -1,6 +1,12 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const pino = require('pino');
+const log = pino(pino.destination('./logs/logs.log'), { level: process.env.LOG_LEVEL || 'info' });
+const expressPino = require('express-pino-logger');
+const expressLogger = expressPino({ logger: log });
+app.use(expressLogger)
+const logger = pino({ prettyPrint: { suppressFlushSyncWarning: true } });
 
 require('./routes/saveAllBreeds')(app);
 require('./routes/listAll')(app);
@@ -33,6 +39,7 @@ app.use((req, res, next) => {
 
 app.use((error, req, res, next) => {
     res.status(error.status || 500);
+    logger.error(error);
     return res.send({
         Trace: error.message
     });
