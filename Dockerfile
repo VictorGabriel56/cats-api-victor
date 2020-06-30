@@ -7,6 +7,7 @@ WORKDIR /usr/src/app
 # limpar log sempre que iniciar img
 RUN rm -rf /logs
 RUN mkdir /logs
+RUN rm -rf /.env
 
 # Copia todos os arquivos que começam com package e tem extensão .json para o diretório definido acima
 COPY package*.json ./

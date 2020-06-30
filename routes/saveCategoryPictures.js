@@ -9,12 +9,13 @@ const expressLogger = expressPino({ logger:log })
 router.use(expressLogger) 
 const logger = pino({ prettyPrint: { suppressFlushSyncWarning: true } });
 
+const key = process.env.ApiKey;
 
 router.get('/hat', async (req, res, next) => {
 
     const glassCatPicutures = await Axios.get("https://api.thecatapi.com/v1/images/search", {
         headers: {
-            'x-api-key': '8676dee6-65f2-4574-afd5-58d94c7c01ce'
+            'x-api-key': key
         },
         params: {
             category_ids: 1,
@@ -30,7 +31,7 @@ router.get('/hat', async (req, res, next) => {
             Url3: glassCatPicutures.data[2].url
         });
     } catch (e) {
-        console.log(e);
+        logger.error(e);
     }
     logger.info('Adicionado 3 fotos de gato com chapeu a base.');
     res.status(200).send({
