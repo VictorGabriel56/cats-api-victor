@@ -9,11 +9,13 @@ const expressLogger = expressPino({ logger:log });
 router.use(expressLogger)
 const logger = pino({ prettyPrint: { suppressFlushSyncWarning: true } });
 
+const key = process.env.ApiKey;
+
 router.get('/', async (req, res, next) => {
   
   const allBeardsSave = await Axios.get("https://api.thecatapi.com/v1/breeds", {
     headers: {
-      'x-api-key': '8676dee6-65f2-4574-afd5-58d94c7c01ce'
+      'x-api-key': key
     }
   });
 
@@ -37,7 +39,7 @@ router.get('/', async (req, res, next) => {
 
     var allBeardsSavePictures = await Axios.get("https://api.thecatapi.com/v1/images/search", {
       headers: {
-        'x-api-key': '8676dee6-65f2-4574-afd5-58d94c7c01ce'
+        'x-api-key': key
       },
       params: {
         breed_id: value.id,
