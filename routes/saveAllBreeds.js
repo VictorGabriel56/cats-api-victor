@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config()
 const Breeds = require('../models/breeds')
 const router = express.Router();
 const { default: Axios } = require('axios');
@@ -34,7 +35,7 @@ router.get('/', async (req, res, next) => {
         });
       }
     }catch (e) {
-      console.log(e);
+      logger.error(e);
     }
 
     var allBeardsSavePictures = await Axios.get("https://api.thecatapi.com/v1/images/search", {
