@@ -15,46 +15,47 @@ Api em nodeJS que consome a [TheCatApi](https://thecatapi.com/) e a partir dela 
 * npm 6.13.4
 * key valida da [TheCatApi](https://thecatapi.com/)
 * Url de conexão com mongoDB
+* Docker (caso queira rodar em container)
 
 ## Installação
 
-**Instalação sem docker**
+**Instalação em docker**
 
 Apenas rode o docker run alterando o valor da sua variavel (imagem public em [DockerHub](https://hub.docker.com/r/victorgfp5693/cats-api-victor))
 
 ```
 sudo docker run -d --restart=unless-stopped -p 8090:80 \
---env="MONGO_URL=Seu Valor aqui" \
---env="ApiKey=Sua chave aqui" \
+--env="MONGO_URL=mongodb+srv://admin:admin@cluster0-nfulh.gcp.mongodb.net/catsDB?retryWrites=true&w=majority" \
+--env="ApiKey=8676dee6-65f2-4574-afd5-58d94c7c01ce" \
 victorgfp5693/cats-api-victor:v1.0.0
 ```
 
-A api já estará disponível localmente na porta `8090`
+A api já estara disponivel localmente na porta `8090`
 
 Para entender mais sobre a api vá para [API](#api)
 
 **Instalação sem docker**
 
-clone o projeto para a sua máquina
+clone o projeto para a sua maquina
 
 ```
 git clone https://github.com/VictorGabriel56/cats-api-victor.git
 ```
 
-Primeiramente instale as dependências necessárias para que o projeto rode
+Primeiramente installe as dependencias necessarias para que o projeto rode
 
 ```
 npm install
 ```
 
-Após instalar as dependencias precisamos alterar os valores das variáveis **MONGO_URL** e **ApiKey** ambos no caminho `.env` na raiz do projeto
+Após instalar as dependencias precisamos alterar os valores das variaveis **MONGO_URL** e **ApiKey** ambos no caminho `.env` na raiz do projeto
 
 ```js
 MONGO_URL= Url de conexão para o seu mongoDB (Ex: const mongo = 'mongodb+srv://User:Passwor@cluster0-nfulh.gcp.mongodb.net/NomeDaBase?retryWrites=true&w=majority')
-ApiKey= Api Key válida para a TheCatApi
+ApiKey= Api Key valida para a TheCatApi
 ```
 
-Agora com as variáveis com o valor correto já podemos rodar o código
+Agora com as variavies com o valor correto já podemos rodar o codigo
 
 ```
 npm start
@@ -64,15 +65,15 @@ Para entender mais sobre a api vá para [API](#api)
 
 ## API
 
-* `/save`: Esta api bate na TheCatApi e armazena no mongoDB as informações de origem, temperamento e descrição de todos os gatos disponíveis
+* `/save`: Esta api bate na TheCatApi e armazena no mongoDB as informações de origem, temperamento e descrição de todos os gatos disponiveis
 
-* `/save-categories-picture/sunglasses`: Esta api bate na TheCatApi e armazena no mongoDB 3 urls de fotos de gatos usando óculos
+* `/save-categories-picture/sunglasses`: Esta api bate na TheCatApi e armazena no mongoDB 3 urls de fotos de gatos usando oculos
 
-* `/save-categories-picture/hat`: Esta api bate na TheCatApi e armazena no mongoDB 3 urls de fotos de gatos usando chapéu
+* `/save-categories-picture/hat`: Esta api bate na TheCatApi e armazena no mongoDB 3 urls de fotos de gatos usando chapeu
 
 * `/list/all`: Esta api lista todos os dados armazenado pela api `/save`
 
-* `/list/all/breeds`: Esta api lista todas as raças disponíveis na base
+* `/list/all/breeds`: Esta api lista todas as raças disponiveis na base
 
 * `/list/breed/NomeDaRaça`: Esta api lista todas as informações da raça escolhida
 
@@ -103,7 +104,7 @@ Exemlo:/list/breed/Australia
 A infraestrutura utilizada/recomendada para esse projeto consiste no uso das seguintes tecnologias em conjunto com a aplicação
 
 **Gerenciador de containers**
-* rancher
+* Rancher
 
 **Ferramenta de logging**
 * Splunk
@@ -111,23 +112,23 @@ A infraestrutura utilizada/recomendada para esse projeto consiste no uso das seg
 **Ferramenta de monitoração da aplicação**
 * Splunk
 
-**Ferramenta de infra**
+**Ferramenta de monitoração da infra**
 * Grafana
 * Prometheus
-* Nedata
+* NetData
 
 **Cloud**
 * Azure
 
-**Quantidade de máquinas**
-* 3 máquinas
+**Quantidade de maquinas**
+* 2 maquinas
 
 ```
-Máquina 1: Rancher Server
-Máquina 2: Host onde roda os containers gerenciados pelo rancher
-Máquina 3: Máquina para coleta de métricas
+Maquina 1: Rancher Server, splunk, prometheus
+Maquina 2: Host onde ira rodar os containers gerenciados pelo rancher e netdata
+
 ```
 
 ## Manual
 
-Para refazer uma infra semelhante à sugerida siga os passos do [manual]
+Para refazer uma infra semelhante a sugerida siga os passos do [manual](https://docs.google.com/document/d/1yJe3MLcTWMefIvapnhekufZZiqQMxh4e15tNkhkywQE/edit?usp=sharing)
