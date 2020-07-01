@@ -25,7 +25,7 @@ Apenas rode o docker run alterando o valor da sua variavel (imagem public em [Do
 
 ```
 sudo docker run -d --restart=unless-stopped -p 8090:80 \
---env="MONGO_URL=mongodb+srv://admin:admin@cluster0-nfulh.gcp.mongodb.net/catsDB?retryWrites=true&w=majority" \
+--env="MONGO_URL=mongodb+srv://User:Pass@cluster0-nfulh.gcp.mongodb.net/NomeDaBase?retryWrites=true&w=majority" \
 --env="ApiKey=8676dee6-65f2-4574-afd5-58d94c7c01ce" \
 victorgfp5693/cats-api-victor:v1.0.0
 ```
