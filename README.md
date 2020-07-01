@@ -112,7 +112,7 @@ A infraestrutura utilizada/recomendada para esse projeto consiste no uso das seg
 **Ferramenta de monitoração da aplicação**
 * Splunk
 
-**Ferramenta de infra**
+**Ferramenta de monitoração da infra**
 * Grafana
 * Prometheus
 * NetData
