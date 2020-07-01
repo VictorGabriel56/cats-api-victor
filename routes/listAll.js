@@ -119,6 +119,8 @@ router.get('/all/sunglass', async (req, res, next) => {
         });
     }
 });
+
+//exemplo de log error 500
 router.get('/error', async (req, res, next) => {
     logger.error("server error.");
     res.status(500).send({
