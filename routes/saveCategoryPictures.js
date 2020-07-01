@@ -4,67 +4,74 @@ const router = express.Router();
 const { default: Axios } = require('axios');
 const pino = require('pino');
 const log = pino(pino.destination('./logs/logs.log'), { level: process.env.LOG_LEVEL || 'info' });
-const expressPino = require('express-pino-logger');  
-const expressLogger = expressPino({ logger:log })
-router.use(expressLogger) 
+const expressPino = require('express-pino-logger');
+const expressLogger = expressPino({ logger: log })
+router.use(expressLogger)
 const logger = pino({ prettyPrint: { suppressFlushSyncWarning: true } });
 
 const key = process.env.ApiKey;
 
 router.get('/hat', async (req, res, next) => {
 
-    const glassCatPicutures = await Axios.get("https://api.thecatapi.com/v1/images/search", {
-        headers: {
-            'x-api-key': key
-        },
-        params: {
-            category_ids: 1,
-            limit: 3
-        }
-    });
-
     try {
+        const glassCatPicutures = await Axios.get("https://api.thecatapi.com/v1/images/search", {
+            headers: {
+                'x-api-key': key
+            },
+            params: {
+                category_ids: 1,
+                limit: 3
+            }
+        });
+
         await Category.create({
             Category: 'Hat',
             Url1: glassCatPicutures.data[0].url,
             Url2: glassCatPicutures.data[1].url,
             Url3: glassCatPicutures.data[2].url
         });
-    } catch (e) {
-        logger.error(e);
-    }
-    logger.info('Adicionado 3 fotos de gato com chapeu a base.');
+
+        logger.info('Adicionado 3 fotos de gato com chapeu a base.');
     res.status(200).send({
         mensagem: 'Adicionado 3 fotos de gato com chapéu a base.'
-      });
+    });
+        
+    } catch (e) {
+        logger.error(e);
+        res.status(404).send({e});
+    }
+
 });
 
 router.get('/sunglasses', async (req, res, next) => {
 
-    const glassCatPicutures = await Axios.get("https://api.thecatapi.com/v1/images/search", {
-        headers: {
-            'x-api-key': '8676dee6-65f2-4574-afd5-58d94c7c01ce'
-        },
-        params: {
-            category_ids: 4,
-            limit: 3
-        }
-    });
-
     try {
+        const glassCatPicutures = await Axios.get("https://api.thecatapi.com/v1/images/search", {
+            headers: {
+                'x-api-key': '8676dee6-65f2-4574-afd5-58d94c7c01ce'
+            },
+            params: {
+                category_ids: 4,
+                limit: 3
+            }
+        });
+
+
         await Category.create({
             Category: 'Sunglasses',
             Url1: glassCatPicutures.data[0].url,
             Url2: glassCatPicutures.data[1].url,
             Url3: glassCatPicutures.data[2].url
         });
+        logger.info('Adicionado 3 fotos de gato com oculos a base.');
+        res.status(200).send({
+            mensagem: 'Adicionado 3 fotos de gato com oculos a base!'
+        });
     } catch (e) {
         logger.error(e);
+        res.status(404).send({e});
     }
-    logger.info('Adicionado 3 fotos de gato com oculos a base.');
-    res.status(200).send({
-        mensagem: 'Adicionado 3 fotos de gato com oculos a base!'
-      });
+
 });
 
 module.exports = app => app.use('/save-categories-picture', router);

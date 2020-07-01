@@ -6,26 +6,28 @@ const { default: Axios } = require('axios');
 const pino = require('pino');
 const log = pino(pino.destination('./logs/logs.log'), { level: process.env.LOG_LEVEL || 'info' });
 const expressPino = require('express-pino-logger');
-const expressLogger = expressPino({ logger:log });
+const expressLogger = expressPino({ logger: log });
 router.use(expressLogger)
 const logger = pino({ prettyPrint: { suppressFlushSyncWarning: true } });
 
 const key = process.env.ApiKey;
 
 router.get('/', async (req, res, next) => {
-  
-  const allBeardsSave = await Axios.get("https://api.thecatapi.com/v1/breeds", {
-    headers: {
-      'x-api-key': key
-    }
-  });
 
-  allBeardsSave.data.forEach(async (value, index) => {
+  try {
+    const allBeardsSave = await Axios.get("https://api.thecatapi.com/v1/breeds", {
+      headers: {
+        'x-api-key': key
+      }
+    });
 
-    let { id } = value.id;
+    allBeardsSave.data.forEach(async (value, index) => {
 
-    let catExist = await Breeds.findOne(id);
-    try {
+
+      let { id } = value.id;
+
+      let catExist = await Breeds.findOne(id);
+
       if (!catExist) {
         await Breeds.create({
           Breed: value.id,
@@ -34,21 +36,17 @@ router.get('/', async (req, res, next) => {
           Description: value.description
         });
       }
-    }catch (e) {
-      logger.error(e);
-    }
 
-    var allBeardsSavePictures = await Axios.get("https://api.thecatapi.com/v1/images/search", {
-      headers: {
-        'x-api-key': key
-      },
-      params: {
-        breed_id: value.id,
-        limit: 3
-      }
-    });
+      var allBeardsSavePictures = await Axios.get("https://api.thecatapi.com/v1/images/search", {
+        headers: {
+          'x-api-key': key
+        },
+        params: {
+          breed_id: value.id,
+          limit: 3
+        }
+      });
 
-    try {
       if (allBeardsSavePictures.data[0] != null) {
         await Breeds.updateOne({ Breed: value.id }, { Picture1: allBeardsSavePictures.data[0].url });
       }
@@ -60,14 +58,16 @@ router.get('/', async (req, res, next) => {
       if (allBeardsSavePictures.data[2] != null) {
         await Breeds.updateOne({ Breed: value.id }, { Picture3: allBeardsSavePictures.data[2].url });
       }
-    } catch (e) {
-      logger.error(e);
-    }
-  });
-  logger.info("Api de atualizacao chamada com sucesso.")
-  res.status(200).send({
-    mensagem: 'Atualizacao de base realizada com sucesso!'
-  });
+
+    });
+    logger.info("Api de atualizacao chamada com sucesso.")
+      res.status(200).send({
+        mensagem: 'Atualizacao de base realizada com sucesso!'
+      });
+  } catch (e) {
+    logger.error(e);
+    res.status(404).send({e});
+  }
 
 });
 
