@@ -23,8 +23,6 @@ app.use(expressLogger)
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// app.use('/free', freeC);
-
 app.use((req, res, next) => {
     const erro = new Error('URL not found');
     erro.status = 404;
