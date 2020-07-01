@@ -119,5 +119,13 @@ router.get('/all/sunglass', async (req, res, next) => {
         });
     }
 });
+router.get('/error', async (req, res, next) => {
+    logger.error("server error.");
+    res.status(500).send({
+        mensagem: 'message: Não existe fotos de gatos com oculos na base.'
+    });
+});
+
+
 
 module.exports = app => app.use('/list', router);

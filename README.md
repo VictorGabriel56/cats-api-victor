@@ -15,10 +15,11 @@ Api em nodeJS que consome a [TheCatApi](https://thecatapi.com/) e a partir dela 
 * npm 6.13.4
 * key valida da [TheCatApi](https://thecatapi.com/)
 * Url de conexão com mongoDB
+* Docker (caso queira rodar em container)
 
 ## Installação
 
-**Instalação sem docker**
+**Instalação em docker**
 
 Apenas rode o docker run alterando o valor da sua variavel (imagem public em [DockerHub](https://hub.docker.com/r/victorgfp5693/cats-api-victor))
 

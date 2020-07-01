@@ -5,7 +5,6 @@ const pino = require('pino');
 const log = pino(pino.destination('./logs/logs.log'), { level: process.env.LOG_LEVEL || 'info' });
 const expressPino = require('express-pino-logger');
 const expressLogger = expressPino({ logger: log });
-app.use(expressLogger)
 const logger = pino({ prettyPrint: { suppressFlushSyncWarning: true } });
 
 require('./routes/saveAllBreeds')(app);
@@ -20,6 +19,7 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.use(expressLogger)
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -39,7 +39,14 @@ app.use((req, res, next) => {
 
 app.use((error, req, res, next) => {
     res.status(error.status || 500);
-    logger.error(error);
+    if(error.status=404){
+        logger.warn(error.message);
+    }
+    else if(error.status=500){
+        logger.error(error.message);
+    }
+    
+
     return res.send({
         Trace: error.message
     });
