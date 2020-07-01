@@ -115,18 +115,18 @@ A infraestrutura utilizada/recomendada para esse projeto consiste no uso das seg
 **Ferramenta de infra**
 * Grafana
 * Prometheus
-* Nedata
+* NetData
 
 **Cloud**
 * Azure
 
 **Quantidade de maquinas**
-* 3 maquinas
+* 2 maquinas
 
 ```
-Maquina 1: Rancher Server
-Maquina 2: Host ondem rodam os containers gerenciados pelo rancher
-Maquina 3: Maquina para coleta de metricas
+Maquina 1: Rancher Server, splunk, prometheus
+Maquina 2: Host onde ira rodar os containers gerenciados pelo rancher e netdata
+
 ```
 
 ## Manual
