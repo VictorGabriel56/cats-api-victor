@@ -131,4 +131,4 @@ Maquina 3: Maquina para coleta de metricas
 
 ## Manual
 
-Para refazer uma infra semelhante a sugerida siga os passos do [manual]
+Para refazer uma infra semelhante a sugerida siga os passos do [manual](https://docs.google.com/document/d/1yJe3MLcTWMefIvapnhekufZZiqQMxh4e15tNkhkywQE/edit?usp=sharing)
