@@ -35,38 +35,38 @@ router.get('/', async (req, res, next) => {
           Origin: value.origin,
           Description: value.description
         });
-      }
 
-      var allBeardsSavePictures = await Axios.get("https://api.thecatapi.com/v1/images/search", {
-        headers: {
-          'x-api-key': key
-        },
-        params: {
-          breed_id: value.id,
-          limit: 3
+        var allBeardsSavePictures = await Axios.get("https://api.thecatapi.com/v1/images/search", {
+          headers: {
+            'x-api-key': key
+          },
+          params: {
+            breed_id: value.id,
+            limit: 3
+          }
+        });
+
+        if (allBeardsSavePictures.data[0] != null) {
+          await Breeds.updateOne({ Breed: value.id }, { Picture1: allBeardsSavePictures.data[0].url });
         }
-      });
 
-      if (allBeardsSavePictures.data[0] != null) {
-        await Breeds.updateOne({ Breed: value.id }, { Picture1: allBeardsSavePictures.data[0].url });
-      }
+        if (allBeardsSavePictures.data[1] != null) {
+          await Breeds.updateOne({ Breed: value.id }, { Picture2: allBeardsSavePictures.data[1].url });
+        }
 
-      if (allBeardsSavePictures.data[1] != null) {
-        await Breeds.updateOne({ Breed: value.id }, { Picture2: allBeardsSavePictures.data[1].url });
-      }
-
-      if (allBeardsSavePictures.data[2] != null) {
-        await Breeds.updateOne({ Breed: value.id }, { Picture3: allBeardsSavePictures.data[2].url });
+        if (allBeardsSavePictures.data[2] != null) {
+          await Breeds.updateOne({ Breed: value.id }, { Picture3: allBeardsSavePictures.data[2].url });
+        }
       }
 
     });
     logger.info("Api de atualizacao chamada com sucesso.")
-      res.status(200).send({
-        mensagem: 'Atualizacao de base realizada com sucesso!'
-      });
+    res.status(200).send({
+      mensagem: 'Atualizacao de base realizada com sucesso!'
+    });
   } catch (e) {
     logger.error(e);
-    res.status(500).send({e});
+    res.status(500).send({ e });
   }
 
 });
