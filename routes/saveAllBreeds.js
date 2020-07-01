@@ -66,7 +66,7 @@ router.get('/', async (req, res, next) => {
       });
   } catch (e) {
     logger.error(e);
-    res.status(404).send({e});
+    res.status(500).send({e});
   }
 
 });
