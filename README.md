@@ -131,4 +131,4 @@ Maquina 2: Host onde ira rodar os containers gerenciados pelo rancher e netdata
 
 ## Manual
 
-Para refazer uma infra semelhante a sugerida siga os passos do [manual](https://docs.google.com/document/d/1yJe3MLcTWMefIvapnhekufZZiqQMxh4e15tNkhkywQE/edit?usp=sharing)
+Para refazer uma infra semelhante a sugerida siga os passos do [manual](https://docs.google.com/document/d/1yJe3MLcTWMefIvapnhekufZZiqQMxh4e15tNkhkywQE/edit?usp=sharing) ou diretamente no link https://bityli.com/aSoJZ
