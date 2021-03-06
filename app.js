@@ -1,15 +1,12 @@
 const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const pino = require('pino');
-const log = pino(pino.destination('./logs/logs.log'), { level: process.env.LOG_LEVEL || 'info' });
-const expressPino = require('express-pino-logger');
-const expressLogger = expressPino({ logger: log });
-const logger = pino({ prettyPrint: { suppressFlushSyncWarning: true } });
+const bodyParser = require('body-parser')
 
-require('./routes/saveAllBreeds')(app);
-require('./routes/listAll')(app);
-require('./routes/saveCategoryPictures')(app);
+const app = express();
+
+app.use(bodyParser.json())
+
+require('./routes/create')(app);
+
 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -18,36 +15,18 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Credentials', true);
     next();
 });
-
-app.use(expressLogger)
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-app.use((req, res, next) => {
-    const erro = new Error('URL not found');
-    erro.status = 404;
-    next(erro);
-});
-
-
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-
-});
-
-app.use((error, req, res, next) => {
-    res.status(error.status || 500);
-    if(error.status=404){
-        logger.warn(error.message);
-    }
-    else if(error.status=500){
-        logger.error(error.message);
-    }
-    
-
-    return res.send({
-        Trace: error.message
-    });
-});
+app.get("/", (request, response) => {
+    const ping = new Date();
+    ping.setHours(ping.getHours() - 3);
+    console.log(`Ping recebido às ${ping.getUTCHours()}:${ping.getUTCMinutes()}:${ping.getUTCSeconds()}`);
+    response.sendStatus(200);
+  });
+  app.listen(process.env.PORT); // Recebe solicitações que o deixa online
+  
+  const Discord = require("discord.js"); //Conexão com a livraria Discord.js
+  const client = new Discord.Client(); //Criação de um novo Client
+  const config = require("./config.json"); //Pegando o prefixo do bot para respostas de comandos
+  
+  client.login(process.env.TOKEN); //Ligando o Bot caso ele consiga acessar o token
 
 module.exports = app;
