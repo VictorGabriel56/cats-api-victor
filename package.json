@@ -19,7 +19,7 @@
     "express-pino-logger": "^5.0.0",
     "length": "0.0.1",
     "mongoose": "^5.9.20",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "pino": "^6.3.2",
     "pino-http": "^5.2.0",
     "pino-pretty": "^4.0.0",
