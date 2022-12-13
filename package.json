@@ -15,7 +15,7 @@
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "discord.js": "^12.5.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-pino-logger": "^5.0.0",
     "length": "0.0.1",
     "mongoose": "^5.9.20",
